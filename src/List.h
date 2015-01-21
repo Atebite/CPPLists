@@ -1,7 +1,7 @@
 #ifndef LIST_H_INCLUDED
 #define LIST_H_INCLUDED
 
-template<class T>
+template<typename T>
 class List{
 	int size = 0;
 	T* list = new T[0];
@@ -12,178 +12,64 @@ public:
 	}
 
 	// inserts a new value into the list
-	void Add(const T &value){
-		T* temp = list;
-		size++;
-
-		// create a new array with the new size, assigning it the old values
-		list = new T[size];
-		list = temp;
-
-		// then assign the new value. -1 because of 0-based indexing
-		list[size - 1] = value;
-	}
+	void Add(const T &value);
 
 	// removes a value from the list by index
-	void Remove(const int &index){
-		T* temp = list;
-		size--;
-
-		// declare new array with the new size
-		list = new T[size];
-
-		// use counting individual to the loop's iterator because we'll be skipping one value
-		int count = 0;
-		for (int i = 0; i < size + 1; i++){
-			if (i == index){
-				continue;
-			}
-			// assign our new array the relevant old values
-			list[count] = temp[i];
-			count++;
-		}
-	}
+	void Remove(const int &index);
 
 	// sets the value at the specified index
-	void Set(const int &index, const T &value){
-		if (index < size && index > -1){
-			list[index] = value;
-		}
-	}
+	void Set(const int &index, const T &value);
 
 	// inserts a value at the specified index, pushing all other values back
-	void Insert(const T &value, const int &index){
-		if (index < size && index > -1){
-			Add(value);
-
-			int temp[2]; // 0 = old, 1 = new
-			temp[0] = list[index];
-			for (int i = index; i < size; i++){
-				temp[1] = list[i];
-				Set(i, temp[0]);
-				temp[0] = temp[1];
-			}
-
-			Set(index, value);
-		}
-	}
+	void Insert(const T &value, const int &index);
 
 	// adds all values from an array to the end of the list
-	void AddFrom(T arr[], const int &arrsize){
-		int count = 0;
-		for (int i = 0; i < arrsize; i++){
-			Add(arr[i]);
-			count++;
-		}
-	}
+	void AddFrom(T arr[], const int &arrsize);
 
 	// inserts all the values of an array at the specified index
-	void InsertArray(T arr[], const int &arrsize, const int &index){
-		int count = 0;
-		for (int i = 0; i < arrsize; i++){
-			Insert(arr[i], index + count);
-			count++;
-		}
-	}
+	void InsertArray(T arr[], const int &arrsize, const int &index);
+
+	// removes all elements from the list that exist in an array
+	void RemoveFrom(T arr[], const int &arrsize);
 
 	// clears all elements from the list
-	void Clear(){
-		delete[] list;
-
-		size = 0;
-		T* list = new T[size];
-	}
+	void Clear();
 
 	// returns a value from the specified index
-	T Get(const int &index){
-		if (index < size){
-			return list[index];
-		}
-	}
+	T Get(const int &index);
+
+	// returns the index of a given value, and a nullpointer if it couldn't be found
+	int* GetIndexByValue(const T &value);
 
 	// checks if the list contains a certain element
-	bool Contains(const T &value){
-		for (int i = 0; i < size; i++){
-			if (list[i] == value){
-				return true;
-			}
-		}
-		return false;
-	}
+	bool Contains(const T &value);
 
 	// checks if the list contains all values in an array
-	bool ContainsAll(T arr[], const int &arrsize){
-		int matches = 0;
-		for (int i = 0; i < size; i++){
-			for (int i2 = 0; i < arrsize; i++){
-				if (arr[i2] == list[i])
-					matches++;
-			}
-		}
-		return (matches == arrsize);
-	}
+	bool ContainsAll(T arr[], const int &arrsize);
 
 	// copies the list to a new array
-	T* ToArray(){
-		T* arr = new T[size];
-		for (int i = 0; i < size; i++){
-			arr[i] = list[i];
-		}
-		return arr;
-	}
+	T* ToArray();
 
 	// copies the list to a specified array
-	void CopyTo(T arr[]){
-		for (int i = 0; i < size; i++){
-			arr[i] = list[i];
-		}
-	}
+	void CopyTo(T arr[]);
 
 	// copies the list to a specified array from the specified index
-	void CopyTo(T arr[], const int &from){
-		// infinite loop prevention
-		if ((size - from) < from){ return; };
-
-		int count = 0;
-		for (int i = from; i < (size - from); i++){
-			arr[count] = list[i];
-			count++;
-		}
-	}
+	void CopyTo(T arr[], const int &from);
 
 	// copies the list to a specified array in the specified range
-	void CopyTo(T arr[], const int &from, const int &end){
-		// infinite loop prevention
-		if (end < from){ return; };
-
-		int count = 0;
-		for (int i = from; i < end; i++){
-			arr[count] = list[i];
-			count++;
-		}
-	}
+	void CopyTo(T arr[], const int &from, const int &end);
 
 	// returns the first value of the list
-	T GetFirst(){
-		return list[0];
-	}
+	T GetFirst();
 
 	// returns the last value of the list
-	T GetLast(){
-		return list[size - 1];
-	}
+	T GetLast();
 
 	// returns the list size
-	int Size(){
-		return size;
-	}
+	int Size();
 
 	// prints the list contents via the standard output
-	void PrintList(){
-		for (int i = 0; i < size; i++){
-			cout << i << ": " << list[i] << endl;
-		}
-	}
+	void PrintList();
 };
 
 #endif
