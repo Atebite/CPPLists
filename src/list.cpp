@@ -167,6 +167,6 @@ int List::Size(){
 
 void List::PrintList(){
 	for (int i = 0; i < size; i++){
-		cout << i << ": " << list[i] << endl;
+		std::cout << i << ": " << list[i] << std::endl;
 	}
 }
